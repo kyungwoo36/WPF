@@ -36,7 +36,7 @@
     <h1>GNS3와 VirtualBox 이용한 보안구축</h1>
     <p>
         [GNS3 포폴로지] <br>
-        적용한 Firewall Rule<br>
+        적용한 Firewall Rule
         <li>Firefox3-inside : http O, telnet O접속</li>
         <li>Webterm2-dmz : telnet접속 O</li>
         <li>PC1 -> webterm1 : ping가능 O</li>
@@ -45,6 +45,11 @@
     </p>
     <img src="https://raw.githubusercontent.com/kyungwoo36/WPF/main/gitpicture/pic1.jpg" alt="Project 1 Image" class="project-image">
 
+    <p>
+        [openVPN구축] <br>
+        pfsense웹접속->openvpn->wizard->CA생성, 서버인증서 생성, OpenVPN서버 설정->System-User Manager-add->방화벽 룰 설정->Client Export-Ubuntu용 .ovpn파일 다운로드
+    </p>
+    <img src="https://raw.githubusercontent.com/kyungwoo36/WPF/main/gitpicture/pic2.jpg" alt="Project 1 Image" class="project-image">
     <h2>주요 결과</h2>
     <ul>
         <li>취약한 패스워드 정책 발견 및 개선 권고</li>
@@ -67,6 +72,7 @@
 
 </body>
 </html>
+
 
 
 
