@@ -26,6 +26,17 @@
     footer a {color:#4A90E2; margin:0 10px;}
     .back-button {display:inline-block; margin-top:20px; padding:10px 20px; background:#4A90E2; color:#fff; border-radius:6px; transition:0.3s;}
     .back-button:hover {background:#357ABD;}
+    .container {
+            display: flex;
+            align-items: flex-start; /* 이미지와 텍스트를 위쪽 정렬 */
+            gap: 20px; /* 이미지와 텍스트 사이 간격 */
+        }
+        .container img {
+            width: 500px; /* 원하는 크기로 조절 */
+        }
+        .text-box {
+            max-width: 400px;
+        }
 </style>
 </head>
 <body>
@@ -51,13 +62,17 @@
         <li>webterm1-R1 : http, telnet가능 O</li>
         <li>webterm2 -> PC1 : ping가능 O</li>
     </p>
-    <img src="gitpicture/pic1.jpg" alt="Project 1 Image" class="project-image">
+    <div class="container">
+        <img src="gitpicture/pic1.jpg" alt="Project 1 Image">
+        <div class="text-box>
+            <p>
+                
+            </p>
+        </div>
+    </div>
     <p>
         [openVPN구축] <br>
-        pfsense웹접속->openvpn->wizard->CA생성, 서버인증서 생성, OpenVPN서버 설정->System-User Manager-add->방화벽 룰 설정
-    </p>
-    <p>
-        ->Client Export-Ubuntu용 .ovpn파일 다운로드->userID, PWD입력해 openVPN접속
+        pfsense웹접속->openvpn->wizard->CA생성, 서버인증서 생성, OpenVPN서버 설정->System-User Manager-add->방화벽 룰 설정->Client Export-Ubuntu용 .ovpn파일 다운로드->userID, PWD입력해 openVPN접속
     </p>
     <img src="gitpicture/pic2.jpg" alt="Project 1 Image" class="project-image">
     <img src="gitpicture/pic3.jpg" alt="Project 1 Image" class="project-image">
@@ -97,6 +112,7 @@
 
 </body>
 </html>
+
 
 
 
