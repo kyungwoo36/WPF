@@ -26,6 +26,33 @@
     footer a {color:#4A90E2; margin:0 10px;}
     .back-button {display:inline-block; margin-top:20px; padding:10px 20px; background:#4A90E2; color:#fff; border-radius:6px; transition:0.3s;}
     .back-button:hover {background:#357ABD;}
+    .grid-image {
+        display:flex;
+        flex-wrap:wrap;
+        align-items:flex-start;
+        margin:30px 0;
+    }
+    .grid-image img {
+        width:calc(33.333% - 10px);
+        margin:0 15px 15px 0;
+    }
+    .grid-image img:nth-of-type(3n),
+    .grid-image img:last-child {
+        margin-right:0;
+    }
+    @media screen and (max-width:640px){
+      .grid-image img {
+        width:calc(50% - 15px);
+      }
+    }
+    @media screen and (max-width:480px){
+      .grid-image img:nth-of-type(2n) {
+        margin-right:0;
+      }
+      .grid-image img:nth-of-type(3n) {
+        margin-right:15px;
+      }
+    }
 </style>
 </head>
 <body>
@@ -51,22 +78,18 @@
         <li>webterm1-R1 : http, telnet가능 O</li>
         <li>webterm2 -> PC1 : ping가능 O</li>
     </p>
-    <table>
-        <tr>
-            <td><img src="https://raw.githubusercontent.com/kyungwoo36/WPF/main/gitpicture/pic1.jpg" alt="Project 1 Image" class="project-image"></td><td><img src="https://raw.githubusercontent.com/kyungwoo36/WPF/main/gitpicture/pic2.jpg" alt="Project 1 Image" class="project-image"></td>
-        </tr>
-    </table>
-
+    <img src="https://raw.githubusercontent.com/kyungwoo36/WPF/main/gitpicture/pic1.jpg" alt="Project 1 Image" class="project-image">
     <p>
         [openVPN구축] <br>
         pfsense웹접속->openvpn->wizard->CA생성, 서버인증서 생성, OpenVPN서버 설정->System-User Manager-add->방화벽 룰 설정->Client Export-Ubuntu용 .ovpn파일 다운로드
     </p>
+    <div class="grid-image">
     <img src="https://raw.githubusercontent.com/kyungwoo36/WPF/main/gitpicture/pic2.jpg" alt="Project 1 Image" class="project-image">
-    
+    <img src="https://raw.githubusercontent.com/kyungwoo36/WPF/main/gitpicture/pic3.jpg" alt="Project 1 Image" class="project-image">
+    </div>
     <p>
         userID, PWD입력해 openVPN접속
     </p>
-     <img src="https://raw.githubusercontent.com/kyungwoo36/WPF/main/gitpicture/pic3.jpg" alt="Project 1 Image" class="project-image">
     <h2>주요 결과</h2>
     <ul>
         <li>취약한 패스워드 정책 발견 및 개선 권고</li>
@@ -89,6 +112,7 @@
 
 </body>
 </html>
+
 
 
 
