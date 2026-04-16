@@ -102,9 +102,11 @@
   .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
 
   /* ── PROJECTS ── */
-  .project { padding: 18px 0; border-bottom: 1px solid var(--border); display: flex; gap: 16px; }
+  .project { padding: 18px 8px; border-bottom: 1px solid var(--border); display: flex; gap: 16px; border-radius: 8px; margin: 0 -8px; cursor: pointer; transition: background 0.15s; text-decoration: none; color: inherit; }
   .project:last-child { border-bottom: none; padding-bottom: 0; }
-  .project:first-child { padding-top: 0; }
+  .project:first-child { padding-top: 8px; }
+  .project:hover { background: var(--bg); }
+  .project:hover .proj-title { color: var(--blue); }
   .proj-icon {
     width: 40px; height: 40px; border-radius: 10px;
     background: var(--blue-light); flex-shrink: 0;
@@ -209,7 +211,7 @@
   <div>
     <p class="section-label" id="projects" style="scroll-margin-top: 80px;">프로젝트</p>
     <div class="card">
-      <div class="project">
+      <a href="project1.html" class="project">
         <div class="proj-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <rect x="3" y="6" width="14" height="10" rx="2" stroke="#1A6BFF" stroke-width="1.5"/>
@@ -226,10 +228,10 @@
             <span class="tag">OWASP Top 10</span>
             <span class="tag">취약점 보고서</span>
           </div>
-          <a href="#" class="proj-link">Writeup 보기 →</a>
+          <span class="proj-link">자세히 보기 →</span>
         </div>
-      </div>
-      <div class="project">
+      </a>
+      <a href="project2.html" class="project">
         <div class="proj-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M10 2L3 5.5v5C3 14.6 6.1 18.4 10 19.5c3.9-1.1 7-4.9 7-9V5.5L10 2z" stroke="#1A6BFF" stroke-width="1.5"/>
@@ -244,10 +246,10 @@
             <span class="tag">Python</span>
             <span class="tag">네트워크 보안</span>
           </div>
-          <a href="https://github.com/kyungwoo36" class="proj-link">GitHub →</a>
+          <span class="proj-link">자세히 보기 →</span>
         </div>
-      </div>
-      <div class="project">
+      </a>
+      <a href="project3.html" class="project">
         <div class="proj-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <rect x="3" y="3" width="6" height="6" rx="1.5" stroke="#1A6BFF" stroke-width="1.5"/>
@@ -264,9 +266,9 @@
             <span class="tag">Privilege Escalation</span>
             <span class="tag">TryHackMe</span>
           </div>
-          <a href="#" class="proj-link">Writeup 보기 →</a>
+          <span class="proj-link">자세히 보기 →</span>
         </div>
-      </div>
+      </a>
     </div>
 
     <p class="section-label" id="ctf" style="margin-top: 8px;">CTF 활동</p>
