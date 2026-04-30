@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>중소기업 보안 환경 모사 · 서경우</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #1A6BFF;
+    --blue-light: #EBF1FF;
+    --green: #1B7A3E;
+    --green-light: #EDFBF3;
+    --red: #C0392B;
+    --red-light: #FEF2F2;
+    --orange-light: #FFF4E5;
+    --orange: #B45309;
+    --text-primary: #111;
+    --text-secondary: #555;
+    --text-muted: #999;
+    --border: rgba(0,0,0,0.08);
+    --bg: #F6F7F9;
+    --white: #fff;
+    --radius: 12px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.6; }
+  a { text-decoration: none; color: inherit; }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    height: 60px;
+  }
+  .logo { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
+  .logo span { color: var(--blue); }
+  nav { display: flex; align-items: center; gap: 8px; }
+  nav a { font-size: 14px; color: var(--text-secondary); padding: 6px 12px; border-radius: 6px; transition: background 0.15s, color 0.15s; }
+  nav a:hover { background: var(--blue-light); color: var(--blue); }
+
+  /* HERO */
+  .proj-hero { background: var(--white); border-bottom: 1px solid var(--border); padding: 56px 40px 48px; }
+  .proj-hero-inner { max-width: 800px; margin: 0 auto; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); margin-bottom: 24px; transition: color 0.15s; }
+  .back-link:hover { color: var(--blue); }
+  .proj-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag { font-size: 11px; padding: 3px 9px; border-radius: 4px; font-weight: 500; }
+  .tag-blue { background: var(--blue-light); color: var(--blue); }
+  .tag-gray { background: #F1F3F6; color: var(--text-secondary); }
+  .proj-hero h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.8px; margin-bottom: 12px; }
+  .proj-hero .summary { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 640px; }
+  .proj-meta { display: flex; gap: 28px; margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .meta-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
+  .meta-value { font-size: 13px; color: var(--text-primary); font-weight: 500; }
+
+  /* BODY */
+  .proj-body { max-width: 800px; margin: 0 auto; padding: 0 40px 60px; }
+
+  /* TABS */
+  .tab-nav {
+    display: flex; border-bottom: 1px solid var(--border);
+    margin-top: 0; background: var(--white);
+    position: sticky; top: 60px; z-index: 90;
+    overflow-x: auto; margin-left: -40px; margin-right: -40px;
+    padding: 0 40px;
+  }
+  .tab-btn {
+    background: none; border: none; cursor: pointer;
+    padding: 14px 18px;
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px; white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab-btn:hover { color: var(--text-secondary); }
+  .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+  .tab-panel { display: none; padding-top: 40px; }
+  .tab-panel.active { display: block; }
+
+  /* SECTION */
+  .section { margin-bottom: 48px; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .section-num { width: 26px; height: 26px; border-radius: 6px; background: var(--blue); color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .section h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .section p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+  .sub-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin: 20px 0 10px; }
+
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; }
+  .step { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .step:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--blue); color: var(--blue); font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .step-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* RULE LIST */
+  .rule-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .rule-item { display: flex; align-items: flex-start; gap: 10px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 14px; color: var(--text-secondary); }
+  .rule-icon { width: 20px; height: 20px; border-radius: 4px; background: var(--blue-light); color: var(--blue); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+  /* CODE */
+  .code-block { background: #F8F9FA; border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 13px; color: #333; overflow-x: auto; line-height: 1.7; margin: 16px 0; white-space: pre; }
+  .code-block .kw  { color: var(--blue); }
+  .code-block .str { color: #C0392B; }
+  .code-block .cm  { color: #999; }
+  .code-block .val { color: #B45309; }
+
+  /* IMAGE */
+  .img-block { margin: 20px 0; }
+  .img-block img { width: 100%; border-radius: 10px; border: 1px solid var(--border); display: block; }
+  .img-caption { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 8px; }
+  .img-placeholder { width: 100%; border-radius: 10px; border: 1.5px dashed rgba(0,0,0,0.1); background: #FAFBFC; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--text-muted); font-size: 13px; }
+  .img-placeholder .ph-icon { font-size: 24px; opacity: .45; }
+  .img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+
+  /* BEFORE / AFTER */
+  .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0 20px; }
+  .ba-card { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .ba-label { padding: 7px 14px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; }
+  .ba-card.before .ba-label { background: #FEF2F2; color: #C0392B; }
+  .ba-card.after  .ba-label { background: var(--green-light); color: var(--green); }
+  .ba-body { padding: 12px 14px; font-family: 'SF Mono','Fira Mono',monospace; font-size: 12.5px; color: var(--text-secondary); background: #F8F9FA; line-height: 1.7; min-height: 72px; }
+
+  /* DETECTION */
+  .detection-grid { display: flex; flex-direction: column; gap: 10px; }
+  .detection-item { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; }
+  .det-num { width: 32px; height: 32px; border-radius: 8px; background: var(--orange-light); color: var(--orange); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .det-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .det-desc { font-size: 12px; color: var(--text-secondary); }
+  .det-badge { font-size: 11px; padding: 3px 9px; border-radius: 10px; background: var(--green-light); color: var(--green); font-weight: 500; white-space: nowrap; }
+
+  /* TABLE */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+  .tbl th { text-align: left; padding: 10px 14px; background: #F8F9FA; border: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+  .tbl td { padding: 11px 14px; border: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  .tbl tr:hover td { background: #FAFBFC; }
+  .sev { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .sev.critical { background: #FEE2E2; color: #DC2626; }
+  .sev.high     { background: #FEF3C7; color: #D97706; }
+  .sev.medium   { background: #FEF9C3; color: #A16207; }
+  .check { color: var(--green); font-weight: 600; }
+
+  /* DOC CARDS */
+  .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin: 16px 0; }
+  .doc-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 20px 18px; transition: border-color 0.15s, box-shadow 0.15s; }
+  .doc-card:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(26,107,255,0.07); }
+  .doc-icon { font-size: 22px; margin-bottom: 10px; }
+  .doc-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .doc-card p  { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+
+  /* BACK */
+  .btn-back { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--text-secondary); border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; transition: border-color 0.15s, color 0.15s; margin-top: 20px; margin-bottom: 60px; }
+  .btn-back:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); background: var(--white); text-align: center; padding: 28px 40px; }
+  footer p { font-size: 13px; color: var(--text-muted); }
+  footer a { color: var(--blue); margin: 0 8px; }
+
+  @media (max-width: 640px) {
+    .proj-hero, .proj-body { padding-left: 20px; padding-right: 20px; }
+    header { padding: 0 20px; }
+    .proj-hero h1 { font-size: 24px; }
+    .img-grid, .before-after { grid-template-columns: 1fr; }
+    .detection-item { grid-template-columns: auto 1fr; }
+    .det-badge { grid-column: 2; }
+    .tab-nav { margin-left: -20px; margin-right: -20px; padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">서경우<span>.</span></div>
+  <nav>
+    <a href="index.html">홈</a>
+    <a href="index.html#projects">프로젝트</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="proj-hero">
+  <div class="proj-hero-inner">
+    <a href="index.html#projects" class="back-link">← 프로젝트 목록</a>
+    <div class="proj-tags">
+      <span class="tag tag-blue">웹 보안</span>
+      <span class="tag tag-blue">로그 분석</span>
+      <span class="tag tag-blue">보안 관제</span>
+      <span class="tag tag-blue">개인정보보호</span>
+      <span class="tag tag-gray">Ubuntu</span>
+      <span class="tag tag-gray">Apache</span>
+      <span class="tag tag-gray">DVWA</span>
+      <span class="tag tag-gray">ELK Stack</span>
+      <span class="tag tag-gray">Kali Linux</span>
+    </div>
+    <h1>중소기업 보안 환경 모사 프로젝트</h1>
+    <p class="summary">
+      리눅스 서버에 웹 서비스를 구축하고 OWASP 기준 취약점 점검 및 조치,
+      ELK Stack 기반 로그 수집 및 이상행위 탐지, 개인정보 관리체계 문서화까지
+      보안 엔지니어의 전 업무 사이클을 직접 구현했습니다.
+    </p>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label">도구</div><div class="meta-value">Apache · DVWA · Nikto · ELK Stack</div></div>
+      <div class="meta-item"><div class="meta-label">환경</div><div class="meta-value">Ubuntu 22.04 · Kali Linux · VirtualBox</div></div>
+      <div class="meta-item"><div class="meta-label">유형</div><div class="meta-value">홈랩 실습 프로젝트</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="proj-body">
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(event,'tab1')">PART 1 · 웹 취약점 점검·조치</button>
+    <button class="tab-btn" onclick="switchTab(event,'tab2')">PART 2 · 로그 수집·이상행위 탐지</button>
+    <button class="tab-btn" onclick="switchTab(event,'tab3')">PART 3 · 관리체계 문서화</button>
+  </div>
+
+  <!-- ══ PART 1 ══ -->
+  <div id="tab1" class="tab-panel active">
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">1</div><h2>환경 구성</h2></div>
+      <p>VirtualBox 위에 Ubuntu 22.04 서버(VM1)와 Kali Linux(VM2)를 Host-Only Network로 연결했습니다. Ubuntu에 Apache2 + PHP + MySQL을 설치하고 취약한 실습용 웹앱 DVWA를 배포해 점검 대상 서버를 구축했습니다.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div><div class="step-title">VM 구성</div><div class="step-desc">Ubuntu 22.04 (웹서버) · Kali Linux (공격자) — Host-Only Network 연결</div></div></div>
+        <div class="step"><div class="step-num">2</div><div><div class="step-title">Apache2 + PHP + MySQL 설치</div><div class="step-desc">apt로 웹 스택 설치 및 서비스 활성화</div></div></div>
+        <div class="step"><div class="step-num">3</div><div><div class="step-title">DVWA 배포</div><div class="step-desc">GitHub에서 DVWA 클론 후 /var/www/html 에 배치, DB 초기화 완료</div></div></div>
+        <div class="step"><div class="step-num">4</div><div><div class="step-title">접속 확인</div><div class="step-desc">Kali 브라우저에서 http://[Ubuntu IP]/DVWA 접속 및 로그인 확인</div></div></div>
+      </div>
+      <div class="img-block">
+        <div class="img-placeholder"><span class="ph-icon">🖼</span><span>DVWA 초기 접속 화면 스크린샷</span></div>
+        <p class="img-caption">① Ubuntu VM — DVWA 웹 서비스 구동 확인</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">2</div><h2>취약점 스캔 (Before)</h2></div>
+      <p>Kali Linux에서 Nikto와 Nmap으로 웹서버를 스캔했습니다. Apache 버전 노출, 디렉터리 리스팅, 보안 헤더 미설정 등 다수의 취약점이 발견됐습니다.</p>
+      <div class="code-block"><span class="cm"># Nikto 웹 취약점 스캐너</span>
+nikto -h http://192.168.56.101 -o before.txt
+
+<span class="cm"># Nmap 포트·서비스 스캔</span>
+nmap -sV -sC 192.168.56.101</div>
+      <div class="img-grid">
+        <div>
+          <div class="img-placeholder" style="min-height:160px;"><span class="ph-icon">🖼</span><span>Nikto 스캔 결과</span></div>
+          <p class="img-caption">② Nikto 취약점 목록 (Before)</p>
+        </div>
+        <div>
+          <div class="img-placeholder" style="min-height:160px;"><span class="ph-icon">🖼</span><span>Nmap 스캔 결과</span></div>
+          <p class="img-caption">③ Nmap 열린 포트·서비스 확인</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">3</div><h2>취약점 실습 공격</h2></div>
+      <p>DVWA Security Level을 Low로 설정 후 SQL Injection과 XSS 공격을 단계별로 수행했습니다.</p>
+
+      <p class="sub-title">① SQL Injection — DB 구조 파악 후 데이터 탈취</p>
+      <div class="code-block"><span class="cm"># 1단계: 취약점 확인</span>
+<span class="val">1'</span>  →  SQL 에러 발생 확인
+
+<span class="cm"># 2단계: 컬럼 수 파악</span>
+<span class="val">1' ORDER BY 2#</span>  →  정상  /  <span class="val">1' ORDER BY 3#</span>  →  에러 → 컬럼 2개
+
+<span class="cm"># 3단계: DB 이름 파악</span>
+<span class="val">1' UNION SELECT database(), null#</span>  →  dvwa
+
+<span class="cm"># 4단계: 테이블 목록</span>
+<span class="val">1' UNION SELECT table_name, null FROM information_schema.tables WHERE table_schema='dvwa'#</span>
+
+<span class="cm"># 5단계: 컬럼 목록</span>
+<span class="val">1' UNION SELECT column_name, null FROM information_schema.columns WHERE table_name='users'#</span>
+
+<span class="cm"># 6단계: 데이터 추출</span>
+<span class="val">1' UNION SELECT user, password FROM users#</span>  →  계정·해시 노출</div>
+      <div class="img-block">
+        <div class="img-placeholder"><span class="ph-icon">🖼</span><span>SQLi 공격 성공 — users 테이블 계정·해시 노출 화면</span></div>
+        <p class="img-caption">④ SQL Injection — 계정·패스워드 해시 탈취 성공</p>
+      </div>
+
+      <p class="sub-title">② XSS (Reflected)</p>
+      <div class="code-block"><span class="cm"># 입력창에 스크립트 삽입</span>
+<span class="str">&lt;script&gt;alert('XSS')&lt;/script&gt;</span>
+
+<span class="cm"># 결과: alert 팝업 실행 → 스크립트 인젝션 가능 확인</span></div>
+      <div class="img-block">
+        <div class="img-placeholder"><span class="ph-icon">🖼</span><span>XSS 공격 성공 — alert 팝업 화면</span></div>
+        <p class="img-caption">⑤ XSS Reflected — 스크립트 실행 확인</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">4</div><h2>취약점 조치 (After)</h2></div>
+      <p>소스 코드 수정 및 Apache 설정 변경으로 각 취약점을 조치하고 재스캔으로 결과를 검증했습니다.</p>
+
+      <p class="sub-title">① SQL Injection — Prepared Statement 적용</p>
+      <div class="before-after">
+        <div class="ba-card before"><div class="ba-label">BEFORE — 취약한 코드</div><div class="ba-body">$query = "SELECT ...
+  WHERE user_id = '$id'";</div></div>
+        <div class="ba-card after"><div class="ba-label">AFTER — Prepared Statement</div><div class="ba-body">$stmt = $pdo->prepare(
+  "SELECT ... WHERE user_id = ?");
+$stmt->execute([$id]);</div></div>
+      </div>
+      <div class="img-grid">
+        <div><div class="img-placeholder" style="min-height:150px;"><span class="ph-icon">🖼</span><span>조치 전 — 공격 성공</span></div><p class="img-caption">조치 전 — 데이터 탈취 성공</p></div>
+        <div><div class="img-placeholder" style="min-height:150px;"><span class="ph-icon">🖼</span><span>조치 후 — 공격 실패</span></div><p class="img-caption">조치 후 — 결과 없음 / 에러</p></div>
+      </div>
+
+      <p class="sub-title">② XSS — 입력값 이스케이프 처리</p>
+      <div class="before-after">
+        <div class="ba-card before"><div class="ba-label">BEFORE</div><div class="ba-body">echo "Hello " . $_GET['name'];</div></div>
+        <div class="ba-card after"><div class="ba-label">AFTER</div><div class="ba-body">echo "Hello " . htmlspecialchars(
+  $_GET['name'], ENT_QUOTES);</div></div>
+      </div>
+
+      <p class="sub-title">③ Apache 버전 정보 노출 조치</p>
+      <div class="before-after">
+        <div class="ba-card before"><div class="ba-label">BEFORE — curl -I 응답</div><div class="ba-body">Server: Apache/2.4.52 (Ubuntu)
+X-Powered-By: PHP/8.1.2</div></div>
+        <div class="ba-card after"><div class="ba-label">AFTER — 버전 숨김</div><div class="ba-body">Server: Apache</div></div>
+      </div>
+      <div class="img-block">
+        <div class="img-placeholder"><span class="ph-icon">🖼</span><span>security.conf vi 편집 화면 / curl -I Before·After 비교</span></div>
+        <p class="img-caption">⑥ ServerTokens Prod / ServerSignature Off 설정 변경</p>
+      </div>
+      <div class="img-block">
+        <div class="img-placeholder"><span class="ph-icon">🖼</span><span>Nikto 재스캔 결과 — 취약점 감소 확인</span></div>
+        <p class="img-caption">⑦ Nikto 재스캔 (After) — 조치 후 취약점 항목 감소</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">5</div><h2>취약점 점검 결과</h2></div>
+      <table class="tbl">
+        <thead><tr><th>취약점</th><th>위험도</th><th>발견 내용</th><th>조치 방법</th><th>결과</th></tr></thead>
+        <tbody>
+          <tr><td>SQL Injection</td><td><span class="sev critical">Critical</span></td><td>login 파라미터 우회, DB 데이터 탈취 가능</td><td>Prepared Statement 적용</td><td><span class="check">✓ 완료</span></td></tr>
+          <tr><td>XSS (Reflected)</td><td><span class="sev high">High</span></td><td>입력값 그대로 출력, 스크립트 실행</td><td>htmlspecialchars() 처리</td><td><span class="check">✓ 완료</span></td></tr>
+          <tr><td>서버 버전 노출</td><td><span class="sev medium">Medium</span></td><td>Apache/PHP 버전 응답 헤더 노출</td><td>ServerTokens Prod 설정</td><td><span class="check">✓ 완료</span></td></tr>
+          <tr><td>디렉터리 리스팅</td><td><span class="sev medium">Medium</span></td><td>웹 루트 디렉터리 목록 노출</td><td>Options -Indexes 설정</td><td><span class="check">✓ 완료</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /tab1 -->
+
+  <!-- ══ PART 2 ══ -->
+  <div id="tab2" class="tab-panel">
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">1</div><h2>ELK Stack 구축</h2></div>
+      <p>Ubuntu VM에 Elasticsearch, Logstash, Kibana를 설치하고 Apache 접근 로그와 시스템 인증 로그를 수집하는 파이프라인을 구성했습니다.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div><div class="step-title">Elasticsearch 설치 및 실행</div><div class="step-desc">apt로 설치 후 systemctl enable elasticsearch</div></div></div>
+        <div class="step"><div class="step-num">2</div><div><div class="step-title">Logstash 파이프라인 설정</div><div class="step-desc">/etc/logstash/conf.d/apache.conf 작성 — input(file) → filter(grok) → output(elasticsearch)</div></div></div>
+        <div class="step"><div class="step-num">3</div><div><div class="step-title">Kibana 대시보드 설정</div><div class="step-desc">Index Pattern 생성, 시각화 패널 구성</div></div></div>
+        <div class="step"><div class="step-num">4</div><div><div class="step-title">서비스 상태 확인</div><div class="step-desc">systemctl status elasticsearch / logstash / kibana — 모두 active 확인</div></div></div>
+      </div>
+      <div class="code-block"><span class="cm"># Logstash 파이프라인 설정 (apache.conf)</span>
+<span class="kw">input</span> {
+  file {
+    path => <span class="str">"/var/log/apache2/access.log"</span>
+    start_position => <span class="str">"beginning"</span>
+  }
+}
+<span class="kw">filter</span> {
+  grok {
+    match => { <span class="str">"message"</span> => <span class="str">"%{COMBINEDAPACHELOG}"</span> }
+  }
+}
+<span class="kw">output</span> {
+  elasticsearch {
+    hosts => [<span class="str">"localhost:9200"</span>]
+    index => <span class="str">"apache-logs-%{+YYYY.MM.dd}"</span>
+  }
+}</div>
+      <div class="img-grid">
+        <div><div class="img-placeholder" style="min-height:160px;"><span class="ph-icon">🖼</span><span>ELK 서비스 3개 active 상태</span></div><p class="img-caption">① systemctl status — 3개 서비스 실행 확인</p></div>
+        <div><div class="img-placeholder" style="min-height:160px;"><span class="ph-icon">🖼</span><span>Kibana 대시보드 초기 접속</span></div><p class="img-caption">② Kibana 대시보드 — 로그 수집 확인</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">2</div><h2>공격 시뮬레이션</h2></div>
+      <p>Kali Linux에서 3가지 공격을 시뮬레이션하고 각각의 로그가 수집·탐지되는지 검증했습니다.</p>
+
+      <p class="sub-title">① SSH 브루트포스 시뮬레이션</p>
+      <div class="code-block"><span class="cm"># Hydra로 SSH 브루트포스</span>
+hydra -l root -P /usr/share/wordlists/rockyou.txt ssh://192.168.56.101</div>
+      <div class="img-block">
+        <div class="img-placeholder"><span class="ph-icon">🖼</span><span>Hydra 브루트포스 실행 화면</span></div>
+        <p class="img-caption">③ Kali — SSH 브루트포스 시뮬레이션 실행</p>
+      </div>
+
+      <p class="sub-title">② 웹 스캐너 접근 탐지</p>
+      <div class="code-block"><span class="cm"># Nikto 스캔 → 웹 로그에 스캐너 User-Agent 기록</span>
+nikto -h http://192.168.56.101</div>
+      <div class="img-block">
+        <div class="img-placeholder"><span class="ph-icon">🖼</span><span>Apache 로그 — Nikto User-Agent 확인</span></div>
+        <p class="img-caption">④ 웹 로그 — Nikto 스캐너 접근 흔적 확인</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">3</div><h2>이상행위 탐지 결과</h2></div>
+      <p>Kibana에서 수집된 로그를 분석하여 이상 패턴 3가지를 시각화하고 탐지 규칙을 설정했습니다.</p>
+      <div class="detection-grid">
+        <div class="detection-item">
+          <div class="det-num">01</div>
+          <div><div class="det-title">SSH 브루트포스 탐지</div><div class="det-desc">단시간 로그인 실패 급증 → auth.log 임계치 룰로 탐지</div></div>
+          <span class="det-badge">탐지 성공</span>
+        </div>
+        <div class="detection-item">
+          <div class="det-num">02</div>
+          <div><div class="det-title">웹 스캐너 접근 탐지</div><div class="det-desc">Apache access.log — Nikto User-Agent 패턴 탐지</div></div>
+          <span class="det-badge">탐지 성공</span>
+        </div>
+        <div class="detection-item">
+          <div class="det-num">03</div>
+          <div><div class="det-title">비정상 시간대 접속</div><div class="det-desc">Kibana 시간대별 접속 시각화로 새벽 이상 접속 탐지</div></div>
+          <span class="det-badge">탐지 성공</span>
+        </div>
+      </div>
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:16px;">
+        <div class="img-block" style="margin:0;">
+          <div class="img-placeholder" style="min-height:260px;"><span class="ph-icon">🖼</span><span>Kibana 대시보드 — 로그인 실패 급증 시각화</span></div>
+          <p class="img-caption">⑤ Kibana — 브루트포스 패턴 탐지 대시보드</p>
+        </div>
+        <div class="img-grid">
+          <div><div class="img-placeholder" style="min-height:160px;"><span class="ph-icon">🖼</span><span>auth.log 로그인 실패 누적</span></div><p class="img-caption">⑥ /var/log/auth.log 실패 기록</p></div>
+          <div><div class="img-placeholder" style="min-height:160px;"><span class="ph-icon">🖼</span><span>Kibana 알림 규칙 설정 화면</span></div><p class="img-caption">⑦ 임계치 초과 알림 규칙 설정</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab2 -->
+
+  <!-- ══ PART 3 ══ -->
+  <div id="tab3" class="tab-panel">
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">1</div><h2>가상 시나리오 설정</h2></div>
+      <p>회원 가입·주문·결제 기능을 갖춘 가상 온라인 쇼핑몰 <strong>"SecureMart"</strong>를 가정하여 개인정보보호법 기준에 맞는 보안 관리체계를 수립했습니다.</p>
+      <ul class="rule-list">
+        <li class="rule-item"><div class="rule-icon">S</div>서비스 유형: 온라인 쇼핑몰 (가상 시나리오)</li>
+        <li class="rule-item"><div class="rule-icon">D</div>수집 개인정보: 이름 · 이메일 · 주소 · 결제정보</li>
+        <li class="rule-item"><div class="rule-icon">L</div>적용 기준: 개인정보보호법</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">2</div><h2>산출 문서 3종</h2></div>
+      <div class="doc-grid">
+        <div class="doc-card"><div class="doc-icon">🔄</div><h4>개인정보 흐름도</h4><p>수집 → 저장 → 이용 → 제3자 제공 → 파기까지 전 과정 시각화</p></div>
+        <div class="doc-card"><div class="doc-icon">🔐</div><h4>접근권한 관리 대장</h4><p>직책별 DB 접근 권한 정의, 최소 권한 원칙 적용 현황</p></div>
+        <div class="doc-card"><div class="doc-icon">⚠️</div><h4>개인정보 위험 평가서</h4><p>위협 시나리오별 발생 가능성·영향도 매트릭스 및 대응 방안</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">3</div><h2>개인정보 흐름도</h2></div>
+      <div class="img-block">
+        <div class="img-placeholder" style="min-height:260px;"><span class="ph-icon">🖼</span><span>개인정보 흐름도 (수집 → 저장 → 파기) 문서</span></div>
+        <p class="img-caption">① 개인정보 수집·이용·파기 전 단계 흐름도</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">4</div><h2>접근권한 관리 대장</h2></div>
+      <table class="tbl">
+        <thead><tr><th>직책</th><th>접근 시스템</th><th>권한 수준</th><th>승인자</th></tr></thead>
+        <tbody>
+          <tr><td>DB 관리자</td><td>MySQL 전체</td><td>Read / Write</td><td>보안팀장</td></tr>
+          <tr><td>개발자</td><td>개발 DB</td><td>Read Only</td><td>팀장</td></tr>
+          <tr><td>CS 담당</td><td>주문·고객 테이블</td><td>Read Only</td><td>팀장</td></tr>
+          <tr><td>마케팅</td><td>집계 데이터만</td><td>Read Only</td><td>팀장</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px; color:var(--text-muted); margin-top:-8px;">② 직책별 최소 권한 원칙 적용 현황</p>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">5</div><h2>위험 평가 매트릭스</h2></div>
+      <div class="img-block">
+        <div class="img-placeholder" style="min-height:240px;"><span class="ph-icon">🖼</span><span>위험 평가 매트릭스 문서</span></div>
+        <p class="img-caption">③ 위협 시나리오별 발생 가능성 × 영향도 평가</p>
+      </div>
+      <table class="tbl" style="margin-top:16px;">
+        <thead><tr><th>위협 시나리오</th><th>가능성</th><th>영향도</th><th>위험도</th><th>대응 방안</th></tr></thead>
+        <tbody>
+          <tr><td>SQL Injection으로 DB 탈취</td><td>높음</td><td>매우 높음</td><td><span class="sev critical">Critical</span></td><td>Prepared Statement, WAF 도입</td></tr>
+          <tr><td>내부자 권한 남용</td><td>중간</td><td>높음</td><td><span class="sev high">High</span></td><td>최소 권한 원칙, 접근 로그 감사</td></tr>
+          <tr><td>패스워드 브루트포스</td><td>높음</td><td>중간</td><td><span class="sev medium">Medium</span></td><td>계정 잠금 정책, 2FA 적용</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /tab3 -->
+
+  <a href="index.html#projects" class="btn-back">← 프로젝트 목록으로 돌아가기</a>
+
+</div><!-- /proj-body -->
+
+<footer>
+  <p>© 2025 서경우 &nbsp;·&nbsp;
+    <a href="https://github.com/kyungwoo36" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+  </p>
+</footer>
+
+<script>
+  function switchTab(e, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    e.currentTarget.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+    window.scrollTo({ top: document.querySelector('.tab-nav').offsetTop - 68, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
