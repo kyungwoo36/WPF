@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>모바일 애플리케이션 모의해킹 · 서경우</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #1A6BFF;
+    --blue-light: #EBF1FF;
+    --green: #1B7A3E;
+    --green-light: #EDFBF3;
+    --red: #C0392B;
+    --red-light: #FEF2F2;
+    --orange-light: #FFF4E5;
+    --orange: #B45309;
+    --text-primary: #111;
+    --text-secondary: #555;
+    --text-muted: #999;
+    --border: rgba(0,0,0,0.08);
+    --bg: #F6F7F9;
+    --white: #fff;
+    --radius: 12px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.6; }
+  a { text-decoration: none; color: inherit; }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    height: 60px;
+  }
+  .logo { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
+  .logo span { color: var(--blue); }
+  nav { display: flex; align-items: center; gap: 8px; }
+  nav a { font-size: 14px; color: var(--text-secondary); padding: 6px 12px; border-radius: 6px; transition: background 0.15s, color 0.15s; }
+  nav a:hover { background: var(--blue-light); color: var(--blue); }
+
+  /* HERO */
+  .proj-hero { background: var(--white); border-bottom: 1px solid var(--border); padding: 56px 40px 48px; }
+  .proj-hero-inner { max-width: 800px; margin: 0 auto; }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); margin-bottom: 24px; transition: color 0.15s; }
+  .back-link:hover { color: var(--blue); }
+  .proj-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag { font-size: 11px; padding: 3px 9px; border-radius: 4px; font-weight: 500; }
+  .tag-blue { background: var(--blue-light); color: var(--blue); }
+  .tag-gray { background: #F1F3F6; color: var(--text-secondary); }
+  .proj-hero h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.8px; margin-bottom: 12px; }
+  .proj-hero .summary { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 640px; }
+  .proj-meta { display: flex; gap: 28px; margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .meta-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
+  .meta-value { font-size: 13px; color: var(--text-primary); font-weight: 500; }
+
+  /* BODY */
+  .proj-body { max-width: 800px; margin: 0 auto; padding: 0 40px 60px; }
+
+  /* TABS */
+  .tab-nav {
+    display: flex; border-bottom: 1px solid var(--border);
+    margin-top: 0; background: var(--white);
+    position: sticky; top: 60px; z-index: 90;
+    overflow-x: auto; margin-left: -40px; margin-right: -40px;
+    padding: 0 40px;
+  }
+  .tab-btn {
+    background: none; border: none; cursor: pointer;
+    padding: 14px 18px;
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    font-size: 13px; font-weight: 500;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px; white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab-btn:hover { color: var(--text-secondary); }
+  .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+  .tab-panel { display: none; padding-top: 40px; }
+  .tab-panel.active { display: block; }
+
+  /* SECTION */
+  .section { margin-bottom: 48px; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .section-num { width: 26px; height: 26px; border-radius: 6px; background: var(--blue); color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .section h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .section p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+  .sub-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin: 20px 0 10px; }
+
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; }
+  .step { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .step:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--blue); color: var(--blue); font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .step-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* RULE LIST */
+  .rule-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .rule-item { display: flex; align-items: flex-start; gap: 10px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 14px; color: var(--text-secondary); }
+  .rule-icon { width: 20px; height: 20px; border-radius: 4px; background: var(--blue-light); color: var(--blue); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+  /* CODE */
+  .code-block { background: #F8F9FA; border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 13px; color: #333; overflow-x: auto; line-height: 1.7; margin: 16px 0; white-space: pre; }
+  .code-block .kw  { color: var(--blue); }
+  .code-block .str { color: #C0392B; }
+  .code-block .cm  { color: #999; }
+  .code-block .val { color: #B45309; }
+
+  /* IMAGE */
+  .img-block { margin: 20px 0; }
+  .img-block img { width: 100%; border-radius: 10px; border: 1px solid var(--border); display: block; }
+  .img-caption { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 8px; }
+  .img-placeholder { width: 100%; border-radius: 10px; border: 1.5px dashed rgba(0,0,0,0.1); background: #FAFBFC; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--text-muted); font-size: 13px; }
+  .img-placeholder .ph-icon { font-size: 24px; opacity: .45; }
+  .img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+
+  /* BEFORE / AFTER */
+  .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0 20px; }
+  .ba-card { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .ba-label { padding: 7px 14px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; }
+  .ba-card.before .ba-label { background: #FEF2F2; color: #C0392B; }
+  .ba-card.after  .ba-label { background: var(--green-light); color: var(--green); }
+  .ba-body { padding: 12px 14px; font-family: 'SF Mono','Fira Mono',monospace; font-size: 12.5px; color: var(--text-secondary); background: #F8F9FA; line-height: 1.7; min-height: 72px; }
+
+  /* DETECTION */
+  .detection-grid { display: flex; flex-direction: column; gap: 10px; }
+  .detection-item { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; }
+  .det-num { width: 32px; height: 32px; border-radius: 8px; background: var(--orange-light); color: var(--orange); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .det-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .det-desc { font-size: 12px; color: var(--text-secondary); }
+  .det-badge { font-size: 11px; padding: 3px 9px; border-radius: 10px; background: var(--green-light); color: var(--green); font-weight: 500; white-space: nowrap; }
+
+  /* TABLE */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+  .tbl th { text-align: left; padding: 10px 14px; background: #F8F9FA; border: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+  .tbl td { padding: 11px 14px; border: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  .tbl tr:hover td { background: #FAFBFC; }
+  .sev { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .sev.critical { background: #FEE2E2; color: #DC2626; }
+  .sev.high     { background: #FEF3C7; color: #D97706; }
+  .sev.medium   { background: #FEF9C3; color: #A16207; }
+  .check { color: var(--green); font-weight: 600; }
+
+  /* DOC CARDS */
+  .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin: 16px 0; }
+  .doc-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 20px 18px; transition: border-color 0.15s, box-shadow 0.15s; }
+  .doc-card:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(26,107,255,0.07); }
+  .doc-icon { font-size: 22px; margin-bottom: 10px; }
+  .doc-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .doc-card p  { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+
+  /* BACK */
+  .btn-back { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--text-secondary); border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; transition: border-color 0.15s, color 0.15s; margin-top: 20px; margin-bottom: 60px; }
+  .btn-back:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); background: var(--white); text-align: center; padding: 28px 40px; }
+  footer p { font-size: 13px; color: var(--text-muted); }
+  footer a { color: var(--blue); margin: 0 8px; }
+
+  @media (max-width: 640px) {
+    .proj-hero, .proj-body { padding-left: 20px; padding-right: 20px; }
+    header { padding: 0 20px; }
+    .proj-hero h1 { font-size: 24px; }
+    .img-grid, .before-after { grid-template-columns: 1fr; }
+    .detection-item { grid-template-columns: auto 1fr; }
+    .det-badge { grid-column: 2; }
+    .tab-nav { margin-left: -20px; margin-right: -20px; padding: 0 20px; }
+  }
+
+/* Evidence image gallery */
+.evidence-title{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin:24px 0 12px;color:var(--muted)}
+.evidence-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:12px 0 22px}
+.evidence-card{margin:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--white);cursor:zoom-in;transition:transform .2s,box-shadow .2s}
+.evidence-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.evidence-card img{display:block;width:100%;height:220px;object-fit:contain;background:#f6f7f9}
+.evidence-card figcaption{padding:10px 12px;font-size:12px;line-height:1.55;color:var(--text);background:var(--white)}
+.evidence-note{font-size:12px;color:var(--muted);margin:-8px 0 18px}
+.lightbox{position:fixed;inset:0;background:rgba(10,14,20,.86);display:none;align-items:center;justify-content:center;padding:28px;z-index:9999}
+.lightbox.open{display:flex}
+.lightbox img{max-width:min(1200px,94vw);max-height:88vh;object-fit:contain;border-radius:10px;box-shadow:0 20px 70px rgba(0,0,0,.4);background:#fff}
+.lightbox-close{position:fixed;right:24px;top:18px;width:42px;height:42px;border:0;border-radius:50%;background:#fff;color:#111;font-size:24px;cursor:pointer}
+@media(max-width:800px){.evidence-gallery{grid-template-columns:1fr 1fr}.evidence-card img{height:180px}}
+@media(max-width:520px){.evidence-gallery{grid-template-columns:1fr}.evidence-card img{height:240px}}
+
+</style>
+
+<style>
+.finding-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin:12px 0}
+.finding-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}
+.finding-title{font-size:15px;font-weight:600}
+@media(max-width:640px){.finding-head{align-items:flex-start;flex-direction:column}}
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="logo">서경우<span>.</span></div>
+  <nav><a href="index.html">홈</a><a href="index.html#projects">프로젝트</a></nav>
+</header>
+
+<div class="proj-hero">
+  <div class="proj-hero-inner">
+    <a href="index.html#projects" class="back-link">← 프로젝트 목록</a>
+    <div class="proj-tags">
+      <span class="tag tag-blue">모바일 보안</span><span class="tag tag-blue">모의해킹</span>
+      <span class="tag tag-blue">API 보안</span><span class="tag tag-blue">JWT</span>
+      <span class="tag tag-gray">Android</span><span class="tag tag-gray">Burp Suite</span>
+      <span class="tag tag-gray">Wireshark</span><span class="tag tag-gray">MobSF</span>
+      <span class="tag tag-gray">Kali Linux</span>
+    </div>
+    <h1>모바일 애플리케이션 모의해킹</h1>
+    <p class="summary">THE GALLERY APP을 대상으로 모바일 애플리케이션과 API 서버의 인증·인가, 통신 구간 및 민감정보 처리 영역을 점검하고 취약점 재현부터 보안 조치와 검증까지 수행했습니다.</p>
+    <div class="proj-meta">
+      <div class="meta-item"><div class="meta-label">대상</div><div class="meta-value">THE GALLERY APP · app-debug.apk</div></div>
+      <div class="meta-item"><div class="meta-label">환경</div><div class="meta-value">Android Emulator API 35 · Kali Linux</div></div>
+      <div class="meta-item"><div class="meta-label">도구</div><div class="meta-value">MobSF · Burp Suite · Wireshark · jwt.io · SQLite Viewer</div></div>
+      <div class="meta-item"><div class="meta-label">기간</div><div class="meta-value">2025.12.01 ~ 2025.12.23</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="proj-body">
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(event,'tab1')">PART 1 · 수행 정보</button>
+    <button class="tab-btn" onclick="switchTab(event,'tab2')">PART 2 · 취약점 분석</button>
+    <button class="tab-btn" onclick="switchTab(event,'tab3')">PART 3 · 보안 조치</button>
+  </div>
+
+  <div id="tab1" class="tab-panel active">
+    <div class="section">
+      <div class="section-header"><div class="section-num">1</div><h2>모의해킹 수행 정보</h2></div>
+      <p>API 인증 결함(JWT)과 과도한 데이터 노출이 결합되는 상황을 실증적으로 분석하기 위해 진단을 수행했습니다.</p>
+      <div class="rule-list">
+        <li class="rule-item"><div class="rule-icon">A</div>대상 애플리케이션: THE GALLERY APP (app-debug.apk)</li>
+        <li class="rule-item"><div class="rule-icon">S</div>API 서버: Node.js Backend Server</li>
+        <li class="rule-item"><div class="rule-icon">E</div>환경: Android Emulator API 35 · Kali Linux</li>
+        <li class="rule-item"><div class="rule-icon">P</div>수행 인력: 서경우 · 모바일 앱 취약점 진단 및 서버 보안 설정 검증</li>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">2</div><h2>진단 결과 요약</h2></div>
+      <p>통신 암호화 미적용, JWT 서명 키 관리 미흡 및 토큰 위조 가능성, API 응답과 로컬 저장소 내 민감정보 노출이 확인되었습니다.</p>
+      <table class="tbl">
+        <thead><tr><th>구분</th><th>취약점</th><th>주요 확인 내용</th><th>위험도</th></tr></thead>
+        <tbody>
+          <tr><td>M5</td><td>Insecure Communication</td><td>평문 HTTP 통신 및 JWT 노출</td><td><span class="sev high">High</span></td></tr>
+          <tr><td>M3</td><td>Insecure Authentication/Authorization</td><td>JWT 서명 위조 및 권한 상승 가능</td><td><span class="sev medium">Medium</span></td></tr>
+          <tr><td>M1</td><td>Improper Credential Usage</td><td>API 응답 및 로컬 저장소 내 자격 증명 노출</td><td><span class="sev medium">Medium</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-panel">
+    <div class="section">
+      <div class="section-header"><div class="section-num">1</div><h2>M5 · Insecure Communication</h2></div>
+      <div class="finding-card">
+        <div class="finding-head"><div class="finding-title">HTTP 평문 전송 및 주요 정보 노출</div><span class="sev high">High</span></div>
+        <p>앱과 서버 간 통신에 암호화되지 않은 HTTP가 사용되며 SSL/TLS(HTTPS)가 적용되지 않았습니다.</p>
+        <p>Wireshark와 Burp Suite를 이용한 패킷 감청 결과 로그인 후 발급된 JWT와 요청 헤더의 토큰 값이 평문으로 노출되는 것을 확인했습니다.</p>
+      </div>
+      <div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
+<figure class="evidence-card" onclick="openLightbox('report_images/image1.png', 'Wireshark 패킷 캡처 · HTTP 통신 확인')"><img src="report_images/image1.png" alt="Wireshark 패킷 캡처 · HTTP 통신 확인" loading="lazy"><figcaption>Wireshark 패킷 캡처 · HTTP 통신 확인</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image8.png', 'Burp Suite · HTTP 요청 인터셉트')"><img src="report_images/image8.png" alt="Burp Suite · HTTP 요청 인터셉트" loading="lazy"><figcaption>Burp Suite · HTTP 요청 인터셉트</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image16.png', 'Wireshark · 평문 TCP/HTTP 트래픽 확인')"><img src="report_images/image16.png" alt="Wireshark · 평문 TCP/HTTP 트래픽 확인" loading="lazy"><figcaption>Wireshark · 평문 TCP/HTTP 트래픽 확인</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image7.png', '터미널 · HTTP 기반 요청 확인')"><img src="report_images/image7.png" alt="터미널 · HTTP 기반 요청 확인" loading="lazy"><figcaption>터미널 · HTTP 기반 요청 확인</figcaption></figure>
+</div><div class="evidence-note">이미지를 클릭하면 원본 크기로 확대해서 확인할 수 있습니다.</div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div><div class="step-title">로그인 요청 확인</div><div class="step-desc">HTTP 기반 통신에서 인증 과정의 패킷을 확인했습니다.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div><div class="step-title">JWT 노출 확인</div><div class="step-desc">서버가 발급한 인증 토큰이 평문 상태로 전송되는 것을 확인했습니다.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div><div class="step-title">영향 확인</div><div class="step-desc">탈취한 토큰을 재사용하여 정상 사용자로 위장하는 세션 하이재킹 가능성을 확인했습니다.</div></div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">2</div><h2>M3 · JWT 토큰 위조 및 권한 상승</h2></div>
+      <div class="finding-card">
+        <div class="finding-head"><div class="finding-title">취약한 Secret 및 서버 측 권한 검증 부재</div><span class="sev medium">Medium</span></div>
+        <p>JWT 서명에 사용되는 비밀키가 단순 문자열로 하드코딩되어 있고, 서버가 실제 권한 검증 없이 토큰 내용을 신뢰하는 구조가 확인되었습니다.</p>
+      </div>
+      <div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
+<figure class="evidence-card" onclick="openLightbox('report_images/image5.png', 'jwt.io · JWT Payload 및 서명 분석')"><img src="report_images/image5.png" alt="jwt.io · JWT Payload 및 서명 분석" loading="lazy"><figcaption>jwt.io · JWT Payload 및 서명 분석</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image6.png', 'jwt.io · 변조된 Payload와 Signature 재생성')"><img src="report_images/image6.png" alt="jwt.io · 변조된 Payload와 Signature 재생성" loading="lazy"><figcaption>jwt.io · 변조된 Payload와 Signature 재생성</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image8.png', 'Burp Suite · 토큰 삽입 및 요청 재전송')"><img src="report_images/image8.png" alt="Burp Suite · 토큰 삽입 및 요청 재전송" loading="lazy"><figcaption>Burp Suite · 토큰 삽입 및 요청 재전송</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image10.png', '서버 로그 · 일반 사용자 및 admin 자동 로그인 확인')"><img src="report_images/image10.png" alt="서버 로그 · 일반 사용자 및 admin 자동 로그인 확인" loading="lazy"><figcaption>서버 로그 · 일반 사용자 및 admin 자동 로그인 확인</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image11.png', '앱 화면 · 권한 상승 전후 비교')"><img src="report_images/image11.png" alt="앱 화면 · 권한 상승 전후 비교" loading="lazy"><figcaption>앱 화면 · 권한 상승 전후 비교</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image12.png', '앱 화면 · GOLD 권한 화면')"><img src="report_images/image12.png" alt="앱 화면 · GOLD 권한 화면" loading="lazy"><figcaption>앱 화면 · GOLD 권한 화면</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image13.png', '앱 화면 · 변경된 사용자 권한 확인')"><img src="report_images/image13.png" alt="앱 화면 · 변경된 사용자 권한 확인" loading="lazy"><figcaption>앱 화면 · 변경된 사용자 권한 확인</figcaption></figure>
+</div><div class="evidence-note">이미지를 클릭하면 원본 크기로 확대해서 확인할 수 있습니다.</div>
+      <p class="sub-title">단계 1 · 일반 사용자 토큰 획득</p>
+      <div class="code-block">Payload: {"username": "woowow", "level": "SILVER", ...}</div>
+      <p class="sub-title">단계 2 · 토큰 위조</p>
+      <div class="code-block">username → admin
+level → GOLD
+취약한 Secret을 이용해 Signature 재생성</div>
+      <p class="sub-title">단계 3 · 위조 토큰 적용</p>
+      <div class="code-block">Burp Suite로 요청을 가로채 재생성한 토큰 삽입
+→ 앱 새로고침 후 서버가 위조 토큰을 유효한 관리자 토큰으로 인식</div>
+      <p class="sub-title">단계 4 · 권한 상승 확인</p>
+      <div class="code-block">[Auto Login] Welcome back, admin
+→ GOLD CLASS 및 관리자 전용 기능 접근 성공</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">3</div><h2>M1 · Improper Credential Usage</h2></div>
+      <div class="finding-card">
+        <div class="finding-head"><div class="finding-title">API 응답 및 로컬 저장소 내 민감정보 노출</div><span class="sev medium">Medium</span></div>
+        <p>GET /verify-token 응답에 평문 비밀번호가 포함되어 있었으며, JWT 토큰 및 사용자 정보가 AsyncStorage에 평문으로 저장되는 것을 확인했습니다.</p>
+      </div>
+      <div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
+<figure class="evidence-card" onclick="openLightbox('report_images/image14.png', 'Burp Suite · API 응답 내 사용자 정보 확인')"><img src="report_images/image14.png" alt="Burp Suite · API 응답 내 사용자 정보 확인" loading="lazy"><figcaption>Burp Suite · API 응답 내 사용자 정보 확인</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image17.png', 'Burp Suite · verify-token 응답 확인')"><img src="report_images/image17.png" alt="Burp Suite · verify-token 응답 확인" loading="lazy"><figcaption>Burp Suite · verify-token 응답 확인</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image18.png', 'Burp Suite · API 응답 데이터 분석')"><img src="report_images/image18.png" alt="Burp Suite · API 응답 데이터 분석" loading="lazy"><figcaption>Burp Suite · API 응답 데이터 분석</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image15.png', 'SQLite Viewer · auth_token 평문 저장 확인')"><img src="report_images/image15.png" alt="SQLite Viewer · auth_token 평문 저장 확인" loading="lazy"><figcaption>SQLite Viewer · auth_token 평문 저장 확인</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image19.png', 'Node.js · toUserResponseDTO() 적용 코드')"><img src="report_images/image19.png" alt="Node.js · toUserResponseDTO() 적용 코드" loading="lazy"><figcaption>Node.js · toUserResponseDTO() 적용 코드</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image20.png', 'API 응답 · DTO 적용 후 민감정보 필터링')"><img src="report_images/image20.png" alt="API 응답 · DTO 적용 후 민감정보 필터링" loading="lazy"><figcaption>API 응답 · DTO 적용 후 민감정보 필터링</figcaption></figure>
+</div><div class="evidence-note">이미지를 클릭하면 원본 크기로 확대해서 확인할 수 있습니다.</div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div><div class="step-title">API 응답 분석</div><div class="step-desc">로그인 및 토큰 검증 API 응답에 사용자의 평문 비밀번호가 포함됨을 확인했습니다.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div><div class="step-title">로컬 저장소 분석</div><div class="step-desc">SQLite Viewer로 RKStorage를 확인한 결과 auth_token 값에 토큰이 그대로 저장되어 있었습니다.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-panel">
+    <div class="section">
+      <div class="section-header"><div class="section-num">1</div><h2>M5 · HTTPS 및 TLS 적용</h2></div>
+      <ul class="rule-list">
+        <li class="rule-item"><div class="rule-icon">1</div>애플리케이션과 서버 간 모든 통신 채널에 SSL/TLS(HTTPS) 적용</li>
+        <li class="rule-item"><div class="rule-icon">2</div>AndroidManifest.xml에서 android:usesCleartextTraffic="false" 적용</li>
+        <li class="rule-item"><div class="rule-icon">3</div>SSL Pinning을 적용하여 지정된 인증서 외 연결 차단</li>
+      </ul>
+      <div class="finding-card"><div class="finding-title">검증 결과</div><p>모든 트래픽이 TLS로 암호화되어 전송되며 TLSv1.3 사용 및 Application Data 암호화를 확인했습니다.</p></div><div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
+<figure class="evidence-card" onclick="openLightbox('report_images/image16.png', '조치 후 · TLS 암호화 트래픽 확인')"><img src="report_images/image16.png" alt="조치 후 · TLS 암호화 트래픽 확인" loading="lazy"><figcaption>조치 후 · TLS 암호화 트래픽 확인</figcaption></figure>
+</div><div class="evidence-note">이미지를 클릭하면 원본 크기로 확대해서 확인할 수 있습니다.</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">2</div><h2>M3 · JWT Secret 키 관리 개선</h2></div>
+      <div class="before-after">
+        <div class="ba-card before"><div class="ba-label">BEFORE</div><div class="ba-body">단순 문자열 Secret 하드코딩
+→ 토큰 위조 가능</div></div>
+        <div class="ba-card after"><div class="ba-label">AFTER</div><div class="ba-body">256비트 이상 난수 키
+→ .env 환경변수로 분리 관리</div></div>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div><div class="step-title">강력한 Secret 적용</div><div class="step-desc">Node.js 서버의 .env에 난수로 생성한 비밀키를 적용했습니다.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div><div class="step-title">위조 JWT 재검증</div><div class="step-desc">기존 취약한 키로 서명된 위조 JWT를 전송했습니다.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div><div class="step-title">차단 확인</div><div class="step-desc">jwt.verify에서 서명 불일치 오류가 발생하고 403 Forbidden으로 요청이 차단됨을 확인했습니다.</div></div></div>
+      </div>
+      <div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
+<figure class="evidence-card" onclick="openLightbox('report_images/image10.png', '서버 로그 · 정상/비정상 토큰 처리 결과')"><img src="report_images/image10.png" alt="서버 로그 · 정상/비정상 토큰 처리 결과" loading="lazy"><figcaption>서버 로그 · 정상/비정상 토큰 처리 결과</figcaption></figure>
+</div><div class="evidence-note">이미지를 클릭하면 원본 크기로 확대해서 확인할 수 있습니다.</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">3</div><h2>M1 · API 응답 및 로컬 저장소 보호</h2></div>
+      <p class="sub-title">① API 응답 DTO 적용</p>
+      <div class="before-after">
+        <div class="ba-card before"><div class="ba-label">BEFORE</div><div class="ba-body">DB 원본 데이터를 그대로 응답
+→ password 노출</div></div>
+        <div class="ba-card after"><div class="ba-label">AFTER</div><div class="ba-body">toUserResponseDTO()
+→ password 필드 제거 후 전송</div></div>
+      </div>
+      <p class="sub-title">② 로컬 저장소 암호화</p>
+      <div class="before-after">
+        <div class="ba-card before"><div class="ba-label">BEFORE</div><div class="ba-body">AsyncStorage
+평문 JWT 저장</div></div>
+        <div class="ba-card after"><div class="ba-label">AFTER</div><div class="ba-body">react-native-encrypted-storage
+Android Keystore 연동 · AES-256 암호화</div></div>
+      </div>
+      <div class="finding-card"><div class="finding-title">검증 결과</div><p>기존 RKStorage 파일에서 토큰 정보가 더 이상 평문으로 저장되지 않으며, 설정 파일의 Key/Value가 판독 불가능한 암호문으로 저장됨을 확인했습니다.</p></div><div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
+<figure class="evidence-card" onclick="openLightbox('report_images/image19.png', 'DTO 필터링 코드')"><img src="report_images/image19.png" alt="DTO 필터링 코드" loading="lazy"><figcaption>DTO 필터링 코드</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image20.png', 'DTO 적용 후 API 응답')"><img src="report_images/image20.png" alt="DTO 적용 후 API 응답" loading="lazy"><figcaption>DTO 적용 후 API 응답</figcaption></figure>
+<figure class="evidence-card" onclick="openLightbox('report_images/image15.png', '암호화 저장소 확인')"><img src="report_images/image15.png" alt="암호화 저장소 확인" loading="lazy"><figcaption>암호화 저장소 확인</figcaption></figure>
+</div><div class="evidence-note">이미지를 클릭하면 원본 크기로 확대해서 확인할 수 있습니다.</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-num">4</div><h2>최종 조치 결과</h2></div>
+      <table class="tbl">
+        <thead><tr><th>취약점</th><th>조치</th><th>검증 결과</th></tr></thead>
+        <tbody>
+          <tr><td>M5 · 불안전한 통신</td><td>HTTPS/TLS · Cleartext 차단 · SSL Pinning</td><td><span class="check">✓ 암호화 전송 확인</span></td></tr>
+          <tr><td>M3 · 인증/인가</td><td>강력한 Secret · 환경변수 분리</td><td><span class="check">✓ 위조 JWT 403 차단</span></td></tr>
+          <tr><td>M1 · API 응답</td><td>DTO 기반 응답 필터링</td><td><span class="check">✓ password 제거</span></td></tr>
+          <tr><td>M1 · 로컬 저장</td><td>Encrypted Storage · Keystore · AES-256</td><td><span class="check">✓ 평문 토큰 미저장</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <a href="index.html#projects" class="btn-back">← 프로젝트 목록으로 돌아가기</a>
+</div>
+
+<footer><p>© 2025 서경우 &nbsp;·&nbsp;
+<a href="https://github.com/kyungwoo36" target="_blank">GitHub</a>
+<a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a></p></footer>
+
+<script>
+  function switchTab(e, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    e.currentTarget.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+    window.scrollTo({ top: document.querySelector('.tab-nav').offsetTop - 68, behavior: 'smooth' });
+  }
+</script>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)"><button class="lightbox-close" aria-label="닫기">×</button><img id="lightbox-img" src="" alt=""></div>
+<script>
+function openLightbox(src, alt){const b=document.getElementById('lightbox');const i=document.getElementById('lightbox-img');i.src=src;i.alt=alt;b.classList.add('open');document.body.style.overflow='hidden';}
+function closeLightbox(e){if(e.target.id==='lightbox'||e.target.classList.contains('lightbox-close')){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}});
+</script>
+</body>
+</html>
