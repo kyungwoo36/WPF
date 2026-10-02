@@ -238,6 +238,40 @@
   </div>
 
   <div id="tab1" class="tab-panel active">
+    <!-- 모의해킹 수행 배경 -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2>모의해킹 수행 배경</h2>
+      </div>
+
+      <p>
+        최근 국내 대형 이커머스 기업에서 발생한 개인정보 유출 사고를 참고하여,
+        유사한 보안 위협을 실증적으로 분석할 수 있는 가상의 서비스 환경을 구축했습니다.
+      </p>
+
+      <p>
+        <strong>
+          THE GALLERY APP이라는 가상의 미술품 온라인 판매 플랫폼을 설정하고,
+          해당 플랫폼의 모바일 애플리케이션과 API 서버를 대상으로 모의해킹을 수행했습니다.
+        </strong>
+        실제 온라인 판매 플랫폼에서 발생할 수 있는 보안 위협을 가정하여
+        애플리케이션의 인증 및 인가 체계, 데이터 처리 방식,
+        정보 저장 및 전송 과정에서 발생할 수 있는 취약점을 점검했습니다.
+      </p>
+
+      <div class="finding-card">
+        <div class="finding-title">진단 목적</div>
+        <p>
+          특히 <strong>API 인증 결함(JWT)</strong>과
+          <strong>과도한 데이터 노출(Excessive Data Exposure)</strong>
+          취약점이 결합되었을 때, 단순한 권한 상승을 넘어
+          다수의 회원 정보가 노출될 수 있는 공격 시나리오를 재현하고
+          보안 개선 방안을 검증하는 데 목적을 두었습니다.
+        </p>
+      </div>
+    </div>
+   
     <div class="section">
       <div class="section-header"><div class="section-num">1</div><h2>모의해킹 수행 정보</h2></div>
       <p>API 인증 결함(JWT)과 과도한 데이터 노출이 결합되는 상황을 실증적으로 분석하기 위해 진단을 수행했습니다.</p>
