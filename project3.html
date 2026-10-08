@@ -273,18 +273,18 @@
     </div>
    
     <div class="section">
-      <div class="section-header"><div class="section-num">1</div><h2>모의해킹 수행 정보</h2></div>
+      <div class="section-header"><div class="section-num">2</div><h2>모의해킹 수행 대상</h2></div>
       <p>API 인증 결함(JWT)과 과도한 데이터 노출이 결합되는 상황을 실증적으로 분석하기 위해 진단을 수행했습니다.</p>
       <div class="rule-list">
-        <li class="rule-item"><div class="rule-icon">A</div>대상 애플리케이션: THE GALLERY APP (app-debug.apk)</li>
-        <li class="rule-item"><div class="rule-icon">S</div>API 서버: Node.js Backend Server</li>
-        <li class="rule-item"><div class="rule-icon">E</div>환경: Android Emulator API 35 · Kali Linux</li>
-        <li class="rule-item"><div class="rule-icon">P</div>수행 인력: 서경우 · 모바일 앱 취약점 진단 및 서버 보안 설정 검증</li>
+        <li class="rule-item"><div class="rule-icon">A</div>애플리케이션: THE GALLERY APP (app-debug.apk)</li>
+        <li class="rule-item"><div class="rule-icon">S</div>API 서버: Node.js Backend Server(http://192.168.16.12:3000)</li>
+        <li class="rule-item"><div class="rule-icon">E</div>테스트 환경: Android Emulator(API 35) · Kali Linux(Burp Suite, Wireshark, Suricata)</li>
+        <li class="rule-item"><div class="rule-icon">P</div>수행 역할: 모바일 앱 취약점 진단 및 서버 보안 설정 검증</li>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-header"><div class="section-num">2</div><h2>진단 결과 요약</h2></div>
+      <div class="section-header"><div class="section-num">3</div><h2>진단 결과 요약</h2></div>
       <p>통신 암호화 미적용, JWT 서명 키 관리 미흡 및 토큰 위조 가능성, API 응답과 로컬 저장소 내 민감정보 노출이 확인되었습니다.</p>
       <table class="tbl">
         <thead><tr><th>구분</th><th>취약점</th><th>주요 확인 내용</th><th>위험도</th></tr></thead>
