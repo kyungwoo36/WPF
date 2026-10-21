@@ -342,43 +342,27 @@
         <div class="step"><div class="step-num">2</div><div><div class="step-title">JWT 노출 확인</div><div class="step-desc">서버가 발급한 인증 토큰이 평문 상태로 전송되는 것을 확인했습니다.</div></div></div>
         <div class="step"><div class="step-num">3</div><div><div class="step-title">영향 확인</div><div class="step-desc">탈취한 토큰 재활용 및 위조를 통해 권한 상승하는 세션 하이재킹 가능성을 확인했습니다.</div></div></div>
       </div>
-      <div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
-<div class="img-grid">
-<figure class="evidence-card" onclick="openLightbox('gitpicture/p2-2.png', 'jwt.io · JWT Payload 및 서명 분석')"><img src="gitpicture/p2-2.png" alt="jwt.io · JWT Payload 및 서명 분석" loading="lazy"><figcaption>jwt.io · JWT Payload 및 서명 분석</figcaption></figure>
-</div>
-<div class="img-grid">
-<figure class="evidence-card" onclick="openLightbox('report_images/image6.png', 'jwt.io · 변조된 Payload와 Signature 재생성')"><img src="report_images/image6.png" alt="jwt.io · 변조된 Payload와 Signature 재생성" loading="lazy"><figcaption>jwt.io · 변조된 Payload와 Signature 재생성</figcaption></figure>
-</div>
-<div class="img-grid">
- <figure class="evidence-card" onclick="openLightbox('report_images/image8.png', 'Burp Suite · 토큰 삽입 및 요청 재전송')"><img src="report_images/image8.png" alt="Burp Suite · 토큰 삽입 및 요청 재전송" loading="lazy"><figcaption>Burp Suite · 토큰 삽입 및 요청 재전송</figcaption></figure>
-</div>
-<div class="img-grid">
- <figure class="evidence-card" onclick="openLightbox('report_images/image10.png', '서버 로그 · 일반 사용자 및 admin 자동 로그인 확인')"><img src="report_images/image10.png" alt="서버 로그 · 일반 사용자 및 admin 자동 로그인 확인" loading="lazy"><figcaption>서버 로그 · 일반 사용자 및 admin 자동 로그인 확인</figcaption></figure>
-</div>
-<div class="img-grid">
- <figure class="evidence-card" onclick="openLightbox('report_images/image11.png', '앱 화면 · 권한 상승 전후 비교')"><img src="report_images/image11.png" alt="앱 화면 · 권한 상승 전후 비교" loading="lazy"><figcaption>앱 화면 · 권한 상승 전후 비교</figcaption></figure>
-</div>
-<div class="img-grid">
- <figure class="evidence-card" onclick="openLightbox('report_images/image12.png', '앱 화면 · GOLD 권한 화면')"><img src="report_images/image12.png" alt="앱 화면 · GOLD 권한 화면" loading="lazy"><figcaption>앱 화면 · GOLD 권한 화면</figcaption></figure>
-</div>
-<div class="img-grid">
- <figure class="evidence-card" onclick="openLightbox('report_images/image13.png', '앱 화면 · 변경된 사용자 권한 확인')"><img src="report_images/image13.png" alt="앱 화면 · 변경된 사용자 권한 확인" loading="lazy"><figcaption>앱 화면 · 변경된 사용자 권한 확인</figcaption></figure>
-</div>
-</div><div class="evidence-note">이미지를 클릭하면 원본 크기로 확대해서 확인할 수 있습니다.</div>
-      <p class="sub-title">단계 1 · 일반 사용자 토큰 획득</p>
-      <div class="code-block">Payload: {"username": "woowow", "level": "SILVER", ...}</div>
-      <p class="sub-title">단계 2 · 토큰 위조</p>
-      <div class="code-block">username → admin
+      <div class="evidence-title">실제 수행 과정</div><div class="evidence-gallery">
+       <div class="img-grid">
+        <figure><img src="gitpicture/p2-4.png" alt="로그인"><figcaption>일반 계정(woowow)으로 로그인, 정상적인 JWT 토큰을 발급</figcaption></figure>
+        <figure><img src="gitpicture/p2-5.png" alt="HTTP 패킷을 캡처"><figcaption>HTTP 패킷을 캡처 · 토큰의 페이로드 확인 </figcaption></figure>
+       </div>
+       </div>
+       <p class="sub-title">단계 1 · 일반 사용자 토큰 획득</p>
+       <div class="code-block">Payload: {"username": "woowow", "level": "SILVER", ...}</div>
+       <p class="sub-title">단계 2 · 토큰 위조</p>
+       <div class="code-block">username → admin
 level → GOLD
 취약한 Secret을 이용해 Signature 재생성</div>
-      <p class="sub-title">단계 3 · 위조 토큰 적용</p>
-      <div class="code-block">Burp Suite로 요청을 가로채 재생성한 토큰 삽입
+       <p class="sub-title">단계 3 · 위조 토큰 적용</p>
+       <div class="code-block">Burp Suite로 요청을 가로채 재생성한 토큰 삽입
 → 앱 새로고침 후 서버가 위조 토큰을 유효한 관리자 토큰으로 인식</div>
-      <p class="sub-title">단계 4 · 권한 상승 확인</p>
-      <div class="code-block">[Auto Login] Welcome back, admin
+       <p class="sub-title">단계 4 · 권한 상승 확인</p>
+       <div class="code-block">[Auto Login] Welcome back, admin
 → GOLD CLASS 및 관리자 전용 기능 접근 성공</div>
-    </div>
-
+       </div>
+      </div>
+     
     <div class="section">
       <div class="section-header"><div class="section-num">3</div><h2>M1 · Improper Credential Usage</h2></div>
       <div class="finding-card">
