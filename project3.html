@@ -61,6 +61,10 @@
   .meta-value { font-size: 13px; color: var(--text-primary); font-weight: 500; }
   .img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
   .img-grid img { width: 100%; border-radius: 10px; border: 1px solid var(--border); display: block; }
+  .img-caption {
+      font-size: 12px; color: var(--text-muted);
+      text-align: center; margin-top: 8px;
+   }
 
   /* BODY */
   .proj-body { max-width: 800px; margin: 0 auto; padding: 0 40px 60px; }
@@ -311,7 +315,9 @@
       <div class="evidence-title">실제 수행 캡</div>
     <div class="img-grid">
       <img src="gitpicture/p2-1.png" alt="Wireshark 패킷 캡처 · HTTP 통신 확인">
+      <p class="img-caption">Wireshark 패킷 캡처 · HTTP 통신 확인</p>
       <img src="gitpicture/p2-2.png" alt="Wireshark 패킷 캡처 · JWT 토큰 평문 노출 확인">
+      <p class="img-caption">Wireshark 패킷 캡처 · JWT 토큰 평문 노출 확인</p>
     </div>
       <div class="steps">
         <div class="step"><div class="step-num">1</div><div><div class="step-title">로그인 요청 확인</div><div class="step-desc">HTTP 기반 통신에서 인증 과정의 패킷을 확인했습니다.</div></div></div>
