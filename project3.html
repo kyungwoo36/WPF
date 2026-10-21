@@ -342,11 +342,10 @@
         <div class="step"><div class="step-num">2</div><div><div class="step-title">JWT 노출 확인</div><div class="step-desc">서버가 발급한 인증 토큰이 평문 상태로 전송되는 것을 확인했습니다.</div></div></div>
         <div class="step"><div class="step-num">3</div><div><div class="step-title">영향 확인</div><div class="step-desc">탈취한 토큰 재활용 및 위조를 통해 권한 상승하는 세션 하이재킹 가능성을 확인했습니다.</div></div></div>
       </div>
-      <div class="evidence-title">실제 수행 과정</div><div class="evidence-gallery">
+      <div class="evidence-title">실제 수행 과정</div><div class="evidence-gallery"></div>
        <div class="img-grid">
         <figure><img src="gitpicture/p2-4.png" alt="로그인"><figcaption>일반 계정(woowow)으로 로그인, 정상적인 JWT 토큰을 발급</figcaption></figure>
         <figure><img src="gitpicture/p2-5.png" alt="HTTP 패킷을 캡처"><figcaption>HTTP 패킷을 캡처 · 토큰의 페이로드 확인 </figcaption></figure>
-       </div>
        </div>
        <p class="sub-title">단계 1 · 일반 사용자 토큰 획득</p>
        <div class="code-block">Payload: {"username": "woowow", "level": "SILVER", ...}</div>
