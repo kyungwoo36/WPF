@@ -318,16 +318,7 @@
          <img src="gitpicture/p2-1.png" alt="Wireshark 패킷 캡처 · HTTP 통신 확인">
          <figcaption>Wireshark 패킷 캡처 · HTTP 통신 확인</figcaption>
        </figure>
-       <figure>
-         <img src="gitpicture/p2-2.png" alt="Wireshark 패킷 캡처 · JWT 토큰 평문 노출 확인">
-         <figcaption>Wireshark 패킷 캡처 · JWT 토큰 평문 노출 확인</figcaption>
-      </figure>
      </div>
-      <div class="steps">
-        <div class="step"><div class="step-num">1</div><div><div class="step-title">로그인 요청 확인</div><div class="step-desc">HTTP 기반 통신에서 인증 과정의 패킷을 확인했습니다.</div></div></div>
-        <div class="step"><div class="step-num">2</div><div><div class="step-title">JWT 노출 확인</div><div class="step-desc">서버가 발급한 인증 토큰이 평문 상태로 전송되는 것을 확인했습니다.</div></div></div>
-        <div class="step"><div class="step-num">3</div><div><div class="step-title">영향 확인</div><div class="step-desc">탈취한 토큰을 재사용하여 정상 사용자로 위장하는 세션 하이재킹 가능성을 확인했습니다.</div></div></div>
-      </div>
     </div>
 
     <div class="section">
@@ -335,6 +326,11 @@
       <div class="finding-card">
         <div class="finding-head"><div class="finding-title">취약한 Secret 및 서버 측 권한 검증 부재</div><span class="sev medium">Medium</span></div>
         <p>JWT 서명에 사용되는 비밀키가 단순 문자열로 하드코딩되어 있고, 서버가 실제 권한 검증 없이 토큰 내용을 신뢰하는 구조가 확인되었습니다.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div><div class="step-title">로그인 요청 확인</div><div class="step-desc">HTTP 기반 통신에서 인증 과정의 패킷을 확인했습니다.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div><div class="step-title">JWT 노출 확인</div><div class="step-desc">서버가 발급한 인증 토큰이 평문 상태로 전송되는 것을 확인했습니다.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div><div class="step-title">영향 확인</div><div class="step-desc">탈취한 토큰을 재사용하여 정상 사용자로 위장하는 세션 하이재킹 가능성을 확인했습니다.</div></div></div>
       </div>
       <div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
 <div class="img-grid">
