@@ -369,13 +369,13 @@ level → GOLD
         <p>GET /verify-token 응답에 평문 비밀번호가 포함되어 있었으며, JWT 토큰 및 사용자 정보가 AsyncStorage에 평문으로 저장되는 것을 확인했습니다.</p>
       </div>
       <div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
-<figure class="evidence-card" onclick="openLightbox('report_images/image14.png', 'Burp Suite · API 응답 내 사용자 정보 확인')"><img src="report_images/image14.png" alt="Burp Suite · API 응답 내 사용자 정보 확인" loading="lazy"><figcaption>Burp Suite · API 응답 내 사용자 정보 확인</figcaption></figure>
-<figure class="evidence-card" onclick="openLightbox('report_images/image17.png', 'Burp Suite · verify-token 응답 확인')"><img src="report_images/image17.png" alt="Burp Suite · verify-token 응답 확인" loading="lazy"><figcaption>Burp Suite · verify-token 응답 확인</figcaption></figure>
-<figure class="evidence-card" onclick="openLightbox('report_images/image18.png', 'Burp Suite · API 응답 데이터 분석')"><img src="report_images/image18.png" alt="Burp Suite · API 응답 데이터 분석" loading="lazy"><figcaption>Burp Suite · API 응답 데이터 분석</figcaption></figure>
-<figure class="evidence-card" onclick="openLightbox('report_images/image15.png', 'SQLite Viewer · auth_token 평문 저장 확인')"><img src="report_images/image15.png" alt="SQLite Viewer · auth_token 평문 저장 확인" loading="lazy"><figcaption>SQLite Viewer · auth_token 평문 저장 확인</figcaption></figure>
-<figure class="evidence-card" onclick="openLightbox('report_images/image19.png', 'Node.js · toUserResponseDTO() 적용 코드')"><img src="report_images/image19.png" alt="Node.js · toUserResponseDTO() 적용 코드" loading="lazy"><figcaption>Node.js · toUserResponseDTO() 적용 코드</figcaption></figure>
-<figure class="evidence-card" onclick="openLightbox('report_images/image20.png', 'API 응답 · DTO 적용 후 민감정보 필터링')"><img src="report_images/image20.png" alt="API 응답 · DTO 적용 후 민감정보 필터링" loading="lazy"><figcaption>API 응답 · DTO 적용 후 민감정보 필터링</figcaption></figure>
-</div><div class="evidence-note">이미지를 클릭하면 원본 크기로 확대해서 확인할 수 있습니다.</div>
+      <figure class="evidence-card" onclick="openLightbox('report_images/image14.png', 'Burp Suite · API 응답 내 사용자 정보 확인')"><img src="report_images/image14.png" alt="Burp Suite · API 응답 내 사용자 정보 확인" loading="lazy"><figcaption>Burp Suite · API 응답 내 사용자 정보 확인</figcaption></figure>
+      <figure class="evidence-card" onclick="openLightbox('report_images/image17.png', 'Burp Suite · verify-token 응답 확인')"><img src="report_images/image17.png" alt="Burp Suite · verify-token 응답 확인" loading="lazy"><figcaption>Burp Suite · verify-token 응답 확인</figcaption></figure>
+      <figure class="evidence-card" onclick="openLightbox('report_images/image18.png', 'Burp Suite · API 응답 데이터 분석')"><img src="report_images/image18.png" alt="Burp Suite · API 응답 데이터 분석" loading="lazy"><figcaption>Burp Suite · API 응답 데이터 분석</figcaption></figure>
+      <figure class="evidence-card" onclick="openLightbox('report_images/image15.png', 'SQLite Viewer · auth_token 평문 저장 확인')"><img src="report_images/image15.png" alt="SQLite Viewer · auth_token 평문 저장 확인" loading="lazy"><figcaption>SQLite Viewer · auth_token 평문 저장 확인</figcaption></figure>
+      <figure class="evidence-card" onclick="openLightbox('report_images/image19.png', 'Node.js · toUserResponseDTO() 적용 코드')"><img src="report_images/image19.png" alt="Node.js · toUserResponseDTO() 적용 코드" loading="lazy"><figcaption>Node.js · toUserResponseDTO() 적용 코드</figcaption></figure>
+      <figure class="evidence-card" onclick="openLightbox('report_images/image20.png', 'API 응답 · DTO 적용 후 민감정보 필터링')"><img src="report_images/image20.png" alt="API 응답 · DTO 적용 후 민감정보 필터링" loading="lazy"><figcaption>API 응답 · DTO 적용 후 민감정보 필터링</figcaption></figure>
+      </div>
       <div class="steps">
         <div class="step"><div class="step-num">1</div><div><div class="step-title">API 응답 분석</div><div class="step-desc">로그인 및 토큰 검증 API 응답에 사용자의 평문 비밀번호가 포함됨을 확인했습니다.</div></div></div>
         <div class="step"><div class="step-num">2</div><div><div class="step-title">로컬 저장소 분석</div><div class="step-desc">SQLite Viewer로 RKStorage를 확인한 결과 auth_token 값에 토큰이 그대로 저장되어 있었습니다.</div></div></div>
