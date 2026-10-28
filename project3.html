@@ -360,9 +360,16 @@ level → GOLD
        <p class="sub-title">단계 3 · 위조 토큰 적용</p>
        <div class="code-block">Burp Suite로 요청을 가로채 재생성한 토큰 삽입
 → 앱 새로고침 후 서버가 위조 토큰을 유효한 관리자 토큰으로 인식</div>
+       <div class="img-grid">
+        <figure><img src="gitpicture/p2-8.png" alt="가로채기"><figcaption>로그인 GET요청 가로채기</figcaption></figure>
+        <figure><img src="gitpicture/p2-9.png" alt="토큰위조"><figcaption>재생성한 토큰 삽입</figcaption></figure>
+       </div>
        <p class="sub-title">단계 4 · 권한 상승 확인</p>
        <div class="code-block">[Auto Login] Welcome back, admin
 → GOLD CLASS 및 관리자 전용 기능 접근 성공</div>
+       <div class="img-grid">
+        <figure><img src="gitpicture/p2-10.png" alt="권한상승"><figcaption>일반 사용자->관리자 권한으로 수직 상승됨 확인</figcaption></figure>
+       </div>
        </div>
      
     <div class="section">
