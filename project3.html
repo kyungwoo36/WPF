@@ -378,12 +378,11 @@ level → GOLD
         <div class="finding-head"><div class="finding-title">API 응답 및 로컬 저장소 내 민감정보 노출</div><span class="sev medium">Medium</span></div>
         <p>GET /verify-token 응답에 평문 비밀번호가 포함되어 있었으며, JWT 토큰 및 사용자 정보가 AsyncStorage에 평문으로 저장되는 것을 확인했습니다.</p>
       </div>
-      <div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
+      <div class="evidence-title">실제 수행 증적</div>
        <div class="img-grid">
         <figure><img src="gitpicture/p2-11.png" alt="API 정보 노출"><figcaption>Burp Suite · API 응답 내 사용자 정보 확인</figcaption></figure>
         <figure><img src="gitpicture/p2-12.png" alt="로컬 평문 저장"><figcaption>SQLite Viewer · auth_token 평문 저장 확인</figcaption></figure>
        </div>
-      </div>
       <div class="steps">
         <div class="step"><div class="step-num">1</div><div><div class="step-title">API 응답 분석</div><div class="step-desc">로그인 및 토큰 검증 API 응답에 사용자의 평문 비밀번호가 포함됨을 확인했습니다.</div></div></div>
         <div class="step"><div class="step-num">2</div><div><div class="step-title">로컬 저장소 분석</div><div class="step-desc">SQLite Viewer로 RKStorage를 확인한 결과 auth_token 값에 토큰이 그대로 저장되어 있었습니다.</div></div></div>
