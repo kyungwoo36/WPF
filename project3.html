@@ -312,7 +312,6 @@
         <p>Wireshark와 Burp Suite를 이용한 네트워크 패킷 감청 결과 로그인 후 발급된 JWT와 요청 헤더의 토큰 값이 평문으로 노출되는 것을 확인했습니다.</p>
         <p>-> 공격자가 이를 탈취할 경우 사용자 인증 없이 세션 하이재킹이 가능합니다. </p>
       </div>
-      <div class="evidence-title">실제 수행 캡처</div>
       <div class="img-grid">
        <figure>
          <img src="gitpicture/p2-1.png" alt="Wireshark 패킷 캡처 · HTTP 통신 확인">
@@ -378,7 +377,6 @@ level → GOLD
         <div class="finding-head"><div class="finding-title">API 응답 및 로컬 저장소 내 민감정보 노출</div><span class="sev medium">Medium</span></div>
         <p>GET /verify-token 응답에 평문 비밀번호가 포함되어 있었으며, JWT 토큰 및 사용자 정보가 AsyncStorage에 평문으로 저장되는 것을 확인했습니다.</p>
       </div>
-      <div class="evidence-title">실제 수행 증적</div>
        <div class="img-grid">
         <figure><img src="gitpicture/p2-11.png" alt="API 정보 노출"><figcaption>Burp Suite · API 응답 내 사용자 정보 확인</figcaption></figure>
         <figure><img src="gitpicture/p2-12.png" alt="로컬 평문 저장"><figcaption>SQLite Viewer · auth_token 평문 저장 확인</figcaption></figure>
@@ -395,12 +393,13 @@ level → GOLD
       <div class="section-header"><div class="section-num">1</div><h2>M5 · HTTPS 및 TLS 적용</h2></div>
       <ul class="rule-list">
         <li class="rule-item"><div class="rule-icon">1</div>애플리케이션과 서버 간 모든 통신 채널에 SSL/TLS(HTTPS) 적용</li>
-        <li class="rule-item"><div class="rule-icon">2</div>AndroidManifest.xml에서 android:usesCleartextTraffic="false" 적용</li>
+        <li class="rule-item"><div class="rule-icon">2</div>AndroidManifest.xml에서 android:usesCleartextTraffic="false" 적용 -> HTTP연결시도 차단</li>
         <li class="rule-item"><div class="rule-icon">3</div>SSL Pinning을 적용하여 지정된 인증서 외 연결 차단</li>
       </ul>
-      <div class="finding-card"><div class="finding-title">검증 결과</div><p>모든 트래픽이 TLS로 암호화되어 전송되며 TLSv1.3 사용 및 Application Data 암호화를 확인했습니다.</p></div><div class="evidence-title">실제 수행 증적</div><div class="evidence-gallery">
+      <div class="finding-card"><div class="finding-title">검증 결과</div>
+       <p>모든 트래픽이 TLS로 암호화되어 전송되며 TLSv1.3 사용 및 Application Data 암호화를 확인했습니다.</p>
+      </div>
       <figure class="evidence-card" onclick="openLightbox('report_images/image16.png', '조치 후 · TLS 암호화 트래픽 확인')"><img src="report_images/image16.png" alt="조치 후 · TLS 암호화 트래픽 확인" loading="lazy"><figcaption>조치 후 · TLS 암호화 트래픽 확인</figcaption></figure>
-      </div><div class="evidence-note">이미지를 클릭하면 원본 크기로 확대해서 확인할 수 있습니다.</div>
     </div>
 
     <div class="section">
